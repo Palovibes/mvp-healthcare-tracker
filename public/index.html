@@ -1,13 +1,19 @@
+<!-- HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Care Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Client Information</title>
 </head>
 <body>
-    <div id="client-list"></div> <!-- Container to display clients -->
-    <script src="app.js"></script> <!-- Linking the JavaScript file -->
-    <link rel="stylesheet" href="styles.css"> <!-- Linking the CSS file -->
+    <div id="app">
+        <label for="clientId">Enter Client ID:</label>
+        <input type="text" id="clientId" placeholder="e.g., 1">
+        <button onclick="fetchClientData()">Fetch Client Data</button>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
