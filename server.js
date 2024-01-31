@@ -275,6 +275,38 @@ app.get('/api/clients/:clientId/earnings', async (req, res) => {
     }
 });
 
+// Define GET route for retrieving client earnings summary
+app.get('/api/clients/earnings-summary', async (req, res) => {
+    try {
+        // **Build SQL query for calculating earnings summary:**
+        const query = `
+        SELECT
+          clients.id,          
+          clients.first_name,  
+          clients.last_name,   
+          SUM(EXTRACT(EPOCH FROM sessions.duration)) AS total_earning  // Total earnings based on session duration
+        FROM
+          clients           // Join clients table
+        INNER JOIN
+          sessions ON clients.id = sessions.client_id  // Join sessions table on client ID
+        GROUP BY
+          clients.id, clients.first_name, clients.last_name   // Group results by client data
+        ORDER BY
+          total_earning DESC;                              // Sort by total earnings in descending order
+      `;
+
+        // **Execute query and handle results:**
+        const result = await client.query(query);
+
+        // **Send back the summary of earnings for all clients:**
+        res.status(200).json(result.rows);  // Return all rows from the query (earnings summary for each client)
+    } catch (err) {
+        // **Handle any errors:**
+        console.error(err);
+        res.status(500).json({ error: 'Internal Server Error: Failed to retrieve earnings summary' });
+    }
+});
+
 
 
 const PORT = process.env.PORT || 3000;

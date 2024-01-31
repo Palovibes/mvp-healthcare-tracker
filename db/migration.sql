@@ -22,7 +22,7 @@ CREATE TABLE sessions (
 );
 
 -- Add the unique constraint to prevent duplicate record entries via POST method
-ALTER TABLE clients ADD UNIQUE (patient_name);
+ALTER TABLE clients ADD UNIQUE (first_name, last_name);
 
 
 
