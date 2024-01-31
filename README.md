@@ -112,6 +112,7 @@ Data Sent Back: Details about a single client.
 13- Send Back Client and Session Details Separately in the Response.
 
 
+****************************************
 Database Tables
 
 "clients" Table:
@@ -130,7 +131,7 @@ ended_at
 client_id (Foreign Key)
 comments
 
-
+****************************************
 Future Plans
 
 Future updates may include:
