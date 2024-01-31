@@ -214,43 +214,63 @@ app.post('/api/hours', async (req, res) => {
     }
 });
 
-// Route for calculating earnings for a client (GET)
+// Define a GET route for `/api/clients/:clientId/earnings`
 app.get('/api/clients/:clientId/earnings', async (req, res) => {
+    // Try to perform the calculations and handle any errors
     try {
+        // Extract the client ID from the request parameters
         const { clientId } = req.params;
 
-        // Calculate the start date for the past week
-        const startDate = new Date();
-        startDate.setDate(startDate.getDate() - 7);
+        // Create a Date object representing the current date
+        const currentDate = new Date();
 
-        // Query to get total duration for the client's sessions within the last week
+        // Calculate the start date for the past week by subtracting 7 days
+        const startDate = new Date(currentDate.setDate(currentDate.getDate() - 7));
+
+        // Construct a SQL query to get the total duration of sessions
+        // - Select client ID and the sum of sessions' durations in hours
+        // - Filter sessions for the specified client starting on or after the start date
+        // - Use `EXTRACT(EPOCH FROM duration)` to convert session durations to seconds
+        // - Divide by 3600 to convert seconds to hours and handle null values with `COALESCE`
         const query = `
-        SELECT 
-          client_id, 
+        SELECT
+          client_id,
           COALESCE(SUM(EXTRACT(EPOCH FROM duration) / 3600), 0) AS total_hours
-        FROM sessions 
+        FROM sessions
         WHERE client_id = $1 AND started_at >= $2
         GROUP BY client_id
       `;
 
+        // Prepare the query parameters: client ID and the calculated start date
         const values = [clientId, startDate];
 
         // Execute the query and store the result
         const result = await client.query(query, values);
 
+        // Check if any sessions were found for the client in the specified time range
         if (result.rows.length === 0) {
-            // Respond with an error if no sessions found for the client in the last week
-            return res.status(404).json({ error: 'Client not found or no recorded hours in the last week' });
+            // Respond with a 404 error if no sessions found
+            return res.status(404).json({
+                error: 'Client not found or no recorded hours in the last week',
+            });
         }
 
-        // Respond with the calculated earnings (assuming an hourly rate of $1)
-        const hourlyRate = 1;
-        const totalEarnings = result.rows[0].total_hours * hourlyRate;
+        // Extract the total hours from the query result
+        const totalHours = result.rows[0].total_hours;
 
+        // hourly rate of $1 for simplicity 
+        const hourlyRate = 1;
+
+        // Calculate the total earnings by multiplying total hours by the hourly rate
+        const totalEarnings = totalHours * hourlyRate;
+
+        // Respond with a successful response containing the calculated earnings
         res.status(200).json({ total_earnings: totalEarnings });
     } catch (err) {
+        // Log any errors encountered during calculations
         console.error(err);
-        // Respond with an error message if calculating earnings encountered issues
+
+        // Respond with a 500 error message for internal server issues
         res.status(500).json({ error: 'Internal Server Error: Failed to calculate earnings' });
     }
 });
