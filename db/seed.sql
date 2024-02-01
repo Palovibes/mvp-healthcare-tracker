@@ -18,21 +18,21 @@ INSERT INTO clients (first_name, last_name, email, phone_number, other_details) 
 
 -- for sessions table:
 INSERT INTO sessions (duration, started_at, ended_at, client_id, comments) VALUES
-  ('00:30:00'::interval, '2024-01-29 14:00:00', '2024-01-29 14:30:00', 1, 'Initial intake and assessment'),
-  ('01:00:00'::interval, '2024-01-30 10:00:00', '2024-01-30 11:00:00', 2, 'Depression management strategies'),
-  ('00:45:00'::interval, '2024-01-31 15:00:00', '2024-01-31 15:45:00', 3, 'Anxiety reduction techniques and relaxation exercises'),
-  ('00:50:00'::interval, '2024-02-01 09:00:00', '2024-02-01 09:50:00', 4, 'Stress management plan and coping mechanisms'),
-  ('01:15:00'::interval, '2024-02-02 13:00:00', '2024-02-02 14:15:00', 5, 'Couples therapy session focusing on communication'),
-  ('01:00:00'::interval, '2024-02-03 10:00:00', '2024-02-03 11:00:00', 6, 'Substance abuse recovery support and group therapy discussion'),
-  ('00:45:00'::interval, '2024-02-04 14:00:00', '2024-02-04 14:45:00', 7, 'Grief and loss counseling and emotional support'),
-  ('01:00:00'::interval, '2024-02-05 09:00:00', '2024-02-05 10:00:00', 8, 'ADHD coaching strategies and organizational skills development'),
-  ('00:50:00'::interval, '2024-02-06 12:00:00', '2024-02-06 12:50:00', 9, 'Career counseling and job search preparation'),
-  ('01:15:00'::interval, '2024-02-07 13:00:00', '2024-02-07 14:15:00', 10, 'Eating disorder treatment plan and nutritional guidance'),
-  ('01:00:00'::interval, '2024-02-08 10:00:00', '2024-02-08 11:00:00', 11, 'Prenatal anxiety management and relaxation techniques'),
-  ('01:00:00'::interval, '2024-02-09 09:00:00', '2024-02-09 10:00:00', 12, 'PTSD therapy session and exposure techniques'),
-  ('00:30:00'::interval, '2024-02-10 14:00:00', '2024-02-10 14:30:00', 14, 'Follow-up session for initial assessment'),
-  ('01:15:00'::interval, '2024-02-12 10:00:00', '2024-02-12 11:15:00', 8, 'ADHD medication management discussion'),
-  ('00:50:00'::interval, '2024-02-13 14:00:00', '2024-02-13 14:50:00', 15, 'Couples therapy session focusing on conflict resolution');
+  ('00:30:00':, '2024-01-29 14:00:00', '2024-01-29 14:30:00', 1, 'Initial intake and assessment'),
+  ('01:00:00':, '2024-01-30 10:00:00', '2024-01-30 11:00:00', 2, 'Depression management strategies'),
+  ('00:45:00':, '2024-01-31 15:00:00', '2024-01-31 15:45:00', 3, 'Anxiety reduction techniques and relaxation exercises'),
+  ('00:50:00':, '2024-02-01 09:00:00', '2024-02-01 09:50:00', 4, 'Stress management plan and coping mechanisms'),
+  ('01:15:00':, '2024-02-02 13:00:00', '2024-02-02 14:15:00', 5, 'Couples therapy session focusing on communication'),
+  ('01:00:00':, '2024-02-03 10:00:00', '2024-02-03 11:00:00', 6, 'Substance abuse recovery support and group therapy discussion'),
+  ('00:45:00':, '2024-02-04 14:00:00', '2024-02-04 14:45:00', 7, 'Grief and loss counseling and emotional support'),
+  ('01:00:00':, '2024-02-05 09:00:00', '2024-02-05 10:00:00', 8, 'ADHD coaching strategies and organizational skills development'),
+  ('00:50:00':, '2024-02-06 12:00:00', '2024-02-06 12:50:00', 9, 'Career counseling and job search preparation'),
+  ('01:15:00':, '2024-02-07 13:00:00', '2024-02-07 14:15:00', 10, 'Eating disorder treatment plan and nutritional guidance'),
+  ('01:00:00':, '2024-02-08 10:00:00', '2024-02-08 11:00:00', 11, 'Prenatal anxiety management and relaxation techniques'),
+  ('01:00:00':, '2024-02-09 09:00:00', '2024-02-09 10:00:00', 12, 'PTSD therapy session and exposure techniques'),
+  ('00:30:00':, '2024-02-10 14:00:00', '2024-02-10 14:30:00', 14, 'Follow-up session for initial assessment'),
+  ('01:15:00':, '2024-02-12 10:00:00', '2024-02-12 11:15:00', 8, 'ADHD medication management discussion'),
+  ('00:50:00':, '2024-02-13 14:00:00', '2024-02-13 14:50:00', 15, 'Couples therapy session focusing on conflict resolution');
 
 
 

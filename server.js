@@ -279,53 +279,29 @@ app.get('/api/clients/:clientId/earnings', async (req, res) => {
     }
 });
 
-// Define GET route for retrieving client earnings summary
-app.get('/api/clients/earnings-summary', async (req, res) => {
-    try {
-        // Construct the SQL query to retrieve client earnings summary
-        const query = `
-            SELECT
-                clients.id,
-                clients.first_name,
-                clients.last_name,
-                COALESCE(SUM(CASE WHEN duration ~ E'^\\d+\\.?\\d*$' THEN COALESCE(EXTRACT(EPOCH FROM duration)::FLOAT, 0) ELSE 0 END), 0) AS total_earning
-            FROM
-                clients
-            INNER JOIN
-                sessions ON clients.id = sessions.client_id
-            WHERE
-                duration ~ E'^\\d+\\.?\\d*$'  -- Filter out rows where duration is not a valid number
-            GROUP BY
-                clients.id, clients.first_name, clients.last_name
-            ORDER BY
-                total_earning DESC;
-        `;
 
-        // Execute the query and store the result
-        const result = await client.query(query);
+// POST route to pass in time stamp 
+app.post('/api/clients/:clientId/session', async (req, res) => {
+    const clientId = Number.parseInt(req.params.clientId);
+    const { started_at, ended_at, comments } = req.body;
+    console.log(`My clientId: ${clientId}`)
+    console.log(`Started at: ${started_at}, Ended at: ${ended_at}, Comment: ${comments}`);
 
-        // Check if the result is empty
-        if (result.rows.length === 0) {
-            // Respond with a 404 error if no data found
-            return res.status(404).json({
-                error: 'No data found for earnings summary',
-            });
-        }
+    const query = `
+    INSERT INTO sessions (client_id, started_at, ended_at, comments) VALUES ($1, $2, $3, $4) RETURNING *
+    `
+    const values = [clientId, started_at, ended_at, comments];
+    // Execute the query and store the result
+    const result = await client.query(query, values);
 
-        // Respond with a successful response containing the calculated earnings summary
-        res.status(200).json(result.rows);
-    } catch (err) {
-        // Log any errors encountered during the retrieval
-        console.error(err);
-
-        // Respond with a 500 error message for internal server issues
-        res.status(500).json({ error: 'Failed to retrieve earnings summary' });
+    if (result.rowCount === 0) {
+        return res.status(500).json({ error: 'Internal Server error' });
     }
+    res.status(201).json({ message: 'created new session timestamp', data: result.rows[0] });
 });
-
 
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server started on port: ${PORT}`);
-});
+    app.listen(PORT, () => {
+        console.log(`Server started on port: ${PORT}`);
+    });

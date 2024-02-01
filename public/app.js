@@ -1,4 +1,4 @@
-// JavaScript (app.js)
+// Listen for unhandled errors and log them to the console
 window.addEventListener('error', function (e) {
     console.error('Unhandled error:', e.error);
 });
@@ -7,29 +7,28 @@ window.addEventListener('unhandledrejection', function (e) {
     console.error('Unhandled rejection:', e.reason);
 });
 
-// JavaScript (app.js)
-// JavaScript (app.js)
+// Fetching Client Data
 async function fetchClientData() {
     try {
+        // Get the client ID from the input field
         const clientIdInput = document.getElementById('clientId');
         const clientId = clientIdInput.value;
-
-        // Input validation
+        // Check if the client ID is valid (not empty and a number)
         if (!clientId || isNaN(clientId)) {
             displayError('Please enter a valid Client ID.');
             return;
         }
 
+        // Send a request to the API endpoint to fetch client data
         const response = await fetch(`http://localhost:3000/api/clients/${clientId}`);
-        const responseBody = await response.clone().text(); // Clone the response body as text
 
+        const responseBody = await response.clone().text(); // Clone the response body as text for logging and parsing
 
-
-        // Log the status and response text
+        // Log the status and response text for debugging purposes
         console.log('Response Status:', response.status);
         console.log('Response Text:', responseBody);
 
-        // Parse the cloned response body as JSON
+        // Parse the response body as JSON to extract client data
         const data = JSON.parse(responseBody);
         console.log('Data:', data);
         updateDOM(data);
@@ -39,9 +38,6 @@ async function fetchClientData() {
         displayError('Error fetching data. Please try again.');
     }
 }
-
-
-
 
 // Function to update the DOM with client data
 function updateDOM(data) {
